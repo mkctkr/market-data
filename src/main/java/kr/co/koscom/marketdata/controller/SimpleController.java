@@ -6,11 +6,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.koscom.marketdata.api.ApiHelper;
 
 @RestController
 public class SimpleController {
+	
+    @RequestMapping("/")
+    public ModelAndView home5() throws Exception {
+    	return new ModelAndView("index", null);
+    }
 
     @RequestMapping("/test")
     String home() {
@@ -25,7 +31,8 @@ public class SimpleController {
     }
     
     @RequestMapping("/News2/{sections}/{query}/{pages}")
-    String home2(@PathVariable(value="sections") String sections, @PathVariable(value="query") String query, @RequestParam(value="pages", required=false) String pages) throws IOException {
+    String home2(@PathVariable(value="sections") String sections, @PathVariable(value="query") String query, @RequestParam(value="pages", required=false) String pages) 
+    		throws IOException, Exception {
     	ApiHelper helper = new ApiHelper();
     	
     	if(null == sections) {
@@ -40,7 +47,9 @@ public class SimpleController {
     	} 
     		
     	// *** DEBUG
-    	return "sections:"+sections + " query:"+query+" pages:"+pages+"\n" + helper.getNewsService(sections, query, pages);
-//    	return helper.getNewsService(sections, query, pages);
+//    	return "sections:"+sections + " query:"+query+" pages:"+pages+"\n" + helper.getNewsService(sections, query, pages);
+    	String jsonString = helper.getNewsService(sections, query, pages);
+//    	JSONObject jsonObject = new JSONObject(jsonString);
+    	return jsonString;
     }
 }
