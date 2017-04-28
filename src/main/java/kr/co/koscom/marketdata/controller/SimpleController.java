@@ -63,7 +63,6 @@ public class SimpleController {
     		sb.append(cat7);
     		sb.append(",");
     	}
-
     	
     	if(sb.length() <= 0) {
     		System.out.println("no params");

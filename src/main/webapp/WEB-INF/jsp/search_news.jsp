@@ -8,15 +8,47 @@
 <title>News Search</title>
 </head>
 
-<script type="text/javascript">
-	var json = ${docs};	
-	alert(json);
-</script>
-
+<script type="text/javascript"></script>
+<style type="text/css">
+table.type02 {
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    margin : 20px 10px;
+}
+table.type02 th {
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    background: #eee;
+}
+table.type02 td {
+    padding: 10px;
+    vertical-align: top;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+</style>
 <body>
+
+<header>
+	<h1>
+	<div class="header" style="height:63px;text-align:center;vertical-align:middle;background-color:#f36f31;">
+		<span style="color:white;">koscom</span>
+	</div>
+	</h1>
+</header>
+
 <div id="newsView">
 	<!-- 뉴스 리스트 -->
-	<table style="width:100%" id="newsTbl">
+	<table style="width:100%" id="newsTbl" class="type02">
 		<tr>
 			<th>No.</th>
 			<th>게시자</th>
