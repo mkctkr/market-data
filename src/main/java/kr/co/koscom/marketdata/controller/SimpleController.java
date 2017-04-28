@@ -25,6 +25,42 @@ public class SimpleController {
     	return new ModelAndView("index", null);
     }
     
+    @RequestMapping("/Search/IssueMaster")
+    public ModelAndView showIssueMaster() throws Exception {
+    	
+    	ModelMap model = new ModelMap();
+    	ApiHelper myHelper = new ApiHelper();
+
+    	JSONObject jsonNews;
+    	String market = null;
+    	String symbol = null;
+    	for(int i = 1; i <= MAX_TRY; i++) {
+    		try{
+    			jsonNews = new JSONObject(myHelper.getNewsService("politics,economy", KEYWORD, Integer.toString(i)));
+    			market = jsonNews.getJSONObject("data").getJSONArray("docs").getJSONObject(0).getJSONArray("securities")
+    					.getJSONObject(0).getString("market");
+    			symbol = jsonNews.getJSONObject("data").getJSONArray("docs").getJSONObject(0).getJSONArray("securities")
+    					.getJSONObject(0).getString("symbol");
+    			break;
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	
+    	JSONObject jsonStock = new JSONObject(myHelper.getStockInfo(market.toLowerCase(), symbol));
+    	String name = jsonStock.getJSONObject("result").getString("isuKorAbbrv");
+    	String price = Integer.toString(jsonStock.getJSONObject("result").getInt("basPrc"));
+    	
+    	model.addAttribute("my_keyword", KEYWORD);
+    	model.addAttribute("my_stock", symbol);
+    	model.addAttribute("my_market", market);
+    	
+    	model.addAttribute("my_name", name);
+    	model.addAttribute("my_price", price);
+    	
+    	return new ModelAndView("issue_master", model);
+    }
+    
     @RequestMapping("/Search/News")
     public ModelAndView showNews(
     		@RequestParam(value = "politics", required=false) String cat1,
@@ -94,19 +130,6 @@ public class SimpleController {
     	return new ModelAndView("search_news", model);
     }
     
-    @RequestMapping("/test")
-    public String test() {
-    	System.out.println("test");
-        return "Hello World! ";
-    }
-
-    // *** TEST
-//    @RequestMapping("/News")
-//    String home3() throws IOException {
-//    	ApiHelper helper = new ApiHelper();
-//    	return helper.getNewsService("politics,economy", "삼성전자", "1");
-//    }
-    
     @RequestMapping(
     		value="/News/{sections}/{query}/{pages}",
     		method={RequestMethod.GET, RequestMethod.POST} )
@@ -129,50 +152,23 @@ public class SimpleController {
     		return "Pages is not specified";
     	} 
     		
-    	// *** DEBUG
-//    	return "sections:"+sections + " query:"+query+" pages:"+pages+"\n" + helper.getNewsService(sections, query, pages);
     	String jsonString = helper.getNewsService(sections, query, pages);
     	JSONObject jo = new JSONObject(jsonString);
     	ModelMap map = new ModelMap();
     	map.addAttribute("docs", jo.get("data"));
     	return jsonString;
     }
-    
 
-    
-    @RequestMapping("/Search/IssueMaster")
-    public ModelAndView showIssueMaster() throws Exception {
-    	
-    	ModelMap model = new ModelMap();
-    	ApiHelper myHelper = new ApiHelper();
+//    @RequestMapping("/test")
+//    public String test() {
+//    	System.out.println("test");
+//        return "Hello World! ";
+//    }
 
-    	JSONObject jsonNews;
-    	String market = null;
-    	String symbol = null;
-    	for(int i = 1; i <= MAX_TRY; i++) {
-    		try{
-    			jsonNews = new JSONObject(myHelper.getNewsService("politics,economy", KEYWORD, Integer.toString(i)));
-    			market = jsonNews.getJSONObject("data").getJSONArray("docs").getJSONObject(0).getJSONArray("securities")
-    					.getJSONObject(0).getString("market");
-    			symbol = jsonNews.getJSONObject("data").getJSONArray("docs").getJSONObject(0).getJSONArray("securities")
-    					.getJSONObject(0).getString("symbol");
-    			break;
-    		} catch(Exception e) {
-    			e.printStackTrace();
-    		}
-    	}
-    	
-    	JSONObject jsonStock = new JSONObject(myHelper.getStockInfo(market.toLowerCase(), symbol));
-    	String name = jsonStock.getJSONObject("result").getString("isuKorAbbrv");
-    	String price = Integer.toString(jsonStock.getJSONObject("result").getInt("basPrc"));
-    	
-    	model.addAttribute("my_keyword", KEYWORD);
-    	model.addAttribute("my_stock", symbol);
-    	model.addAttribute("my_market", market);
-    	
-    	model.addAttribute("my_name", name);
-    	model.addAttribute("my_price", price);
-    	
-    	return new ModelAndView("issue_master", model);
-    }
+    // *** TEST
+//    @RequestMapping("/News")
+//    String home3() throws IOException {
+//    	ApiHelper helper = new ApiHelper();
+//    	return helper.getNewsService("politics,economy", "삼성전자", "1");
+//    }
 }

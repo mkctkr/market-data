@@ -38,30 +38,6 @@ public class ApiHelper {
         return sb.toString();
 	}
 	
-	public String getMarketIssueMaster(String marketCode, String issueCode) throws IOException {
-        StringBuilder urlBuilder = new StringBuilder("https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issuecode}/master".replace("{marketcode}", URLEncoder.encode("kospi", "UTF-8")).replace("{issuecode}", URLEncoder.encode("005930", "UTF-8")));
-        urlBuilder.append("?");
-        urlBuilder.append(URLEncoder.encode("apikey","UTF-8") + "=" + URLEncoder.encode(CommonConfig._APIKEY, "UTF-8"));
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        System.out.println("Response code: " + conn.getResponseCode());
-        BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
-        return sb.toString();
-	}
-	
 	public String getStockInfo(String marketcode, String issuecode) throws IOException {
 		StringBuilder urlBuilder = new StringBuilder("https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issuecode}/master".replace("{marketcode}", URLEncoder.encode(marketcode, "UTF-8")).replace("{issuecode}", URLEncoder.encode(issuecode, "UTF-8")));
 		System.out.println(urlBuilder.toString());
