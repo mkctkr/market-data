@@ -13,10 +13,10 @@ $(document).ready(function(){
 		active:false,
 		collapsible:true
 	});
-	$("#accordion_0427").accordion({
-		active:false,
-		collapsible:true
-	});
+//	$("#accordion_0427").accordion({
+//		active:false,
+//		collapsible:true
+//	});
 });
 </script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -70,24 +70,29 @@ table.type02 td {
 	  <h3>박보검 (47 hits)</h3>
 	  <div>
 	  	<div class="widget">
-	  		<span style="font-weight:bold">LG 생활건강</span>
-	  		<input type="submit" value="상세조회">
+	  		<form action="/Search/IssueMaster" target="_blank">
+		  		<span style="font-weight:bold">LG 생활건강</span>
+		  		<input type="submit" value="상세조회">
+	  		</form>
 	  	</div>
 	  	<br />
-	  	
+<!-- 	  	
 	  	<div class="widget">
-	  		<span style="font-weight:bold">???</span>
+	  		<span style="font-weight:bold">농심</span>
 	  		<input type="submit" value="상세조회">
 	  	</div>
+-->	  	
 	  	<br />
 	  </div>
+<!-- 
 	  <h3>???</h3>
 	  <div>
 	    <p>
 	    </p>
 	  </div>
+-->
 	</div>
-
+<!-- 
 	<h2>2017년 4월 27일</h2>
   	<div id="accordion_0427">
 	  <h3>??? (32 hits)</h3>
@@ -110,7 +115,7 @@ table.type02 td {
 	    </p>
 	  </div>
 	</div>
-
+-->
   </div>
   <div id="tab_SearchNews">
   	<fieldset>
@@ -138,6 +143,7 @@ table.type02 td {
 	      <input type="checkbox" name="opinion" value="opinion" id="cat_7">
 	      <label for="cat_7">opinion</label><br />	
 	    </div>
+
 	    
 	    <label for="cat_query">검색어:</label>
 	    <input type="text" id="cat_query" name="query" value="삼성전자">
