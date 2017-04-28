@@ -19,16 +19,46 @@ public class SimpleController {
 	private static int MAX_TRY = 30;
 	private static String KEYWORD = "박보검";
 	
+	private static String symbol;
+	private static String market;
+	private static String name;
+	private static String price;
+	
     @RequestMapping("/")
     public ModelAndView home() throws Exception {
-//    	System.out.println("home");
-    	return new ModelAndView("index", null);
+    	
+    	ApiHelper myHelper = new ApiHelper();
+
+    	JSONObject jsonNews;
+    	for(int i = 1; i <= MAX_TRY; i++) {
+    		try{
+    			jsonNews = new JSONObject(myHelper.getNewsService("politics,economy", KEYWORD, Integer.toString(i)));
+    			market = jsonNews.getJSONObject("data").getJSONArray("docs").getJSONObject(0).getJSONArray("securities")
+    					.getJSONObject(0).getString("market");
+    			symbol = jsonNews.getJSONObject("data").getJSONArray("docs").getJSONObject(0).getJSONArray("securities")
+    					.getJSONObject(0).getString("symbol");
+    			break;
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	
+    	JSONObject jsonStock = new JSONObject(myHelper.getStockInfo(market.toLowerCase(), symbol));
+    	name = jsonStock.getJSONObject("result").getString("isuKorAbbrv");
+    	price = Integer.toString(jsonStock.getJSONObject("result").getInt("basPrc"));
+
+    	ModelMap model = new ModelMap();
+    	model.addAttribute("req_item", name);
+    	
+    	return new ModelAndView("index", model);
     }
     
     @RequestMapping("/Search/IssueMaster")
     public ModelAndView showIssueMaster() throws Exception {
     	
     	ModelMap model = new ModelMap();
+    	
+    	/*    	
     	ApiHelper myHelper = new ApiHelper();
 
     	JSONObject jsonNews;
@@ -50,11 +80,11 @@ public class SimpleController {
     	JSONObject jsonStock = new JSONObject(myHelper.getStockInfo(market.toLowerCase(), symbol));
     	String name = jsonStock.getJSONObject("result").getString("isuKorAbbrv");
     	String price = Integer.toString(jsonStock.getJSONObject("result").getInt("basPrc"));
+    	*/
     	
     	model.addAttribute("my_keyword", KEYWORD);
     	model.addAttribute("my_stock", symbol);
     	model.addAttribute("my_market", market);
-    	
     	model.addAttribute("my_name", name);
     	model.addAttribute("my_price", price);
     	

@@ -71,7 +71,7 @@ table.type02 td {
 	  <div>
 	  	<div class="widget">
 	  		<form action="/Search/IssueMaster" target="_blank">
-		  		<span style="font-weight:bold">LG 생활건강</span>
+		  		<span style="font-weight:bold">${req_item}</span>
 		  		<input type="submit" value="상세조회">
 	  		</form>
 	  	</div>
